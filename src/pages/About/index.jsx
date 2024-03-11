@@ -10,17 +10,38 @@ function About() {
   const dollarsAmount = formatPrice(product && product?.data?.attributes?.price)
   const [productColor, setProductColor] = useState(product && product?.data?.attributes?.colors[0]);
 
- console.log(product?.data);
+ console.log("product", product?.data);
    
  function handleAmount(e) {
    setAmount(parseInt(e.target.value))
  }
 
  function addToCart(){
-      const cartProduct = {
+  const cartProduct = {
+    image: product && product?.data?.attributes?.image,
+    title: product && product?.data?.attributes?.title,
+    company: product && product?.data?.attributes?.company,
+    price: dollarsAmount,
+    productId: product && product?.data?.id,
+    productColor: productColor,
+    amount: amount,
+    cartID: product && product?.data?.id + productColor,
+  };
 
-      }  
- }
+  
+  let existingCart = localStorage.getItem('cartProduct');
+
+  
+  let updatedCart;
+  if (existingCart) {
+    updatedCart = JSON.parse(existingCart);
+    updatedCart = [...updatedCart, cartProduct]; 
+  } else {
+    updatedCart = [cartProduct];
+  }
+
+  localStorage.setItem('cartProduct', JSON.stringify(updatedCart));
+}
 
   return (
     <>
